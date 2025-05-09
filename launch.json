@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Worker",
+        "type": "pwa-node",
+        "request": "launch",
+        "program": "${workspaceFolder}/dist/worker.js",
+        "cwd": "${workspaceFolder}",
+        "envFile": "${workspaceFolder}/.env",
+        "preLaunchTask": "npm: build"
+      },
+      {
+        "name": "Run Starter",
+        "type": "pwa-node",
+        "request": "launch",
+        "program": "${workspaceFolder}/dist/index.js",
+        "cwd": "${workspaceFolder}",
+        "envFile": "${workspaceFolder}/.env",
+        "preLaunchTask": "npm: build"
+      }
+    ]
+  }
+  
