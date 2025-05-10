@@ -1,10 +1,17 @@
 
-<div align="center"style="text-align: center;">
+<!-- <div align="center"style="text-align: center;">
 <img src="https://christianc.dev/wp-content/uploads/2025/05/Screenshot-2025-05-10-at-19.25.12.png" width="400" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  />
 <img src="https://christianc.dev/wp-content/uploads/2025/05/LevityAi.png" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  />
 
 
+</div> -->
+
+<div style="position: relative; width: 400px; margin: 0 auto;">
+  <img src="https://christianc.dev/wp-content/uploads/2025/05/Screenshot-2025-05-10-at-19.25.12.png" width="400" alt="Background Image" style="display: block; width: 100%;" />
+  
+  <img src="https://christianc.dev/wp-content/uploads/2025/05/LevityAi.png" width="300" alt="Overlay Image" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);" />
 </div>
+
 
 # Freight Delay Notification System 🚚
 
