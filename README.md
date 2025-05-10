@@ -91,6 +91,7 @@ Each job (route) runs as its own perpetual workflow instance and follows the loo
 
 * Node.js >= 18
 * A running Temporal server (e.g., `docker‑compose up` from the official samples)
+* Alternatively, you can run brew install temporal and start the Temporal server locally (for testing and development purposes only).
 * API keys: Google Maps, OpenAI, SendGrid
 
 \### 2. Install
