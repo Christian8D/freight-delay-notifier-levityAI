@@ -60,14 +60,29 @@ Each job (route) runs as its own perpetual workflow instance and follows the loo
 ## Repository layout
 
 ```text
+├── launch.json               # VSCode debug configuration
+├── package-lock.json         # NPM lockfile
+├── package.json              # Project metadata and dependencies
+├── README.md                 # Project documentation
 ├── src
-│   ├── activities/      # Google Maps, OpenAI, SendGrid calls
-│   ├── workflows/       # Temporal workflow logic
-│   ├── tests/           # Jest test suites
-│   ├── worker.ts        # Worker bootstrap
-│   └── index.ts         # Schedules workflows
-├── tsconfig.json
-└── package.json
+│   ├── activities/           # OpenAI, SendGrid calls, Google Maps
+│   │   ├── ai.ts
+│   │   ├── notifications.ts
+│   │   └── traffic.ts        
+│   ├── config.ts             # Config for tuning thresholds, origins, etc.
+│   ├── index.ts              # Entry point: schedules workflows
+│   ├── tests/                # Test scripts (manual tests)
+│   │   ├── testAI.ts
+│   │   ├── testNotif.ts
+│   │   ├── testTraffic.ts
+│   │   └── testWorkflow.ts
+│   ├── worker.ts             # Worker registration and runner
+│   └── workflows/            # Temporal workflow logic
+│       ├── delayNotifications.ts
+│       ├── index.ts
+│       └── monitorWorkflow.ts
+├── tsconfig.json             # TypeScript configuration
+└── your_temporal.db          # SQLite DB used by Temporal server
 ```
 
 ## Getting started
