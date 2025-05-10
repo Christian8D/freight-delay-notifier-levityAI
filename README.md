@@ -6,12 +6,12 @@
 
 </div> -->
 
-<div style="position: relative; width: 400px; margin: 0 auto;">
-  <!-- <img src="https://christianc.dev/wp-content/uploads/2025/05/Screenshot-2025-05-10-at-19.25.12.png" width="400" alt="Background Image" style="display: block; width: 100%;" /> -->
-  
-  <img src="https://christianc.dev/wp-content/uploads/2025/05/LevityAi.png" width="300" alt="Overlay Image" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);" />
-</div>
+<div align="center" style="text-align: center;">
+   <img src="https://christianc.dev/wp-content/uploads/2024/11/Screen-Shot-2024-11-18-at-9.28.15-PM.svg" width="800" alt="Overlay Image" style="position: absolute; top: 0; left: 50%; transform: translateX(50%);" />
 
+<img src="https://framerusercontent.com/images/qFTSfYBH5aoyhySaMO3zaAfVo.png" width="200" alt="Background Image" style="display: block; width: 40%;" /> 
+ 
+</div>
 
 # Freight Delay Notification System 🚚
 
