@@ -5,12 +5,15 @@ import type { RouteConfig } from './workflows/monitorWorkflow';
 /*  Tuning knobs (edit here, no code changes required elsewhere)               */
 /* -------------------------------------------------------------------------- */
 
+export const TASK_QUEUE = 'FreightMonitorQueue';
+
+
 /** Global threshold for initial alert (minutes of delay) REMOVE THE "-" symbol to get real traffic gains */
 export const GLOBAL_THRESHOLD = -25;
 /** Additional minutes before we say the delay has “worsened” */
-export const DELTA_JUMP_MIN   = 1;
+export const DELTA_JUMP_MIN   = 10;
 /** Max silent period before sending an update (minutes) */
-export const MAX_QUIET_MIN    = 3;
+export const MAX_QUIET_MIN    = 60;
 /** Margin below threshold that counts as “cleared”  */
 export const CLEAR_MARGIN_MIN = 3;
 /** Poll Google Maps every N minutes */
@@ -81,4 +84,4 @@ export const ROUTE_CONFIGS: JobConfig[] = [
     // },
 ];
 
-export const TASK_QUEUE = 'FreightMonitorQueue';
+

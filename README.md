@@ -143,10 +143,15 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 
 ---
 
+
+* `TASK_QUEUE`: The Temporal **queue name** where workers listen for tasks. Default: `'FreightMonitorQueue'`.
+
+
 ### 🚦 Tuning knobs
 
 | Constant            | Description                                                                                                                 | Default |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `TASK_QUEUE`  | The Temporal **queue name** where workers listen for tasks. | Default: `'FreightMonitorQueue'`.  |
 | `GLOBAL_THRESHOLD`  | The minimum delay (in minutes) before sending an alert. **⚠️ Important:** Remove the `-` sign to track real traffic delays. | `-25`   |
 | `DELTA_JUMP_MIN`    | The extra delay (minutes) needed to consider the delay as “worsened” and send an updated notification.                      | `1`     |
 | `MAX_QUIET_MIN`     | The maximum time (minutes) the workflow waits before sending a fresh update, even if the delay hasn't changed much.         | `3`     |
@@ -187,11 +192,6 @@ export const Customer_4 = { name: 'Jon Doe', email: 'JonDoe@example.com' };
     },
 ```
 
----
-
-### 🛠 Task Queue
-
-* `TASK_QUEUE`: The Temporal **queue name** where workers listen for tasks. Default: `'FreightMonitorQueue'`.
 
 ---
 
