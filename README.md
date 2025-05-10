@@ -30,7 +30,7 @@ Powered by:
 2. [Repository layout](#repository-layout)
 3. [Getting started](#getting-started)
 4. [Configuration](#configuration)
-5. [Scripts & tasks](#scripts--tasks)
+5. [Scripts & tasks](#scripts)
 6. [Testing](#testing)
 7. [Troubleshooting](#troubleshooting)
 
@@ -107,7 +107,7 @@ Temporal server started.
 Namespace default registered.
 ```
 
-\### 4. Build & run
+\### 6. Build & run
 
 ```bash
 # compile TypeScript
@@ -188,7 +188,7 @@ This file is designed for **easy customization**—no code elsewhere needs chang
 
 * **.env** for secret keys
 
-## Scripts & tasks
+## Scripts
 
 `package.json` exposes handy aliases:
 
