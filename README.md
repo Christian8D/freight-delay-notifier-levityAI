@@ -38,21 +38,30 @@ Powered by:
 
 ```mermaid
 sequenceDiagram
-    participant CLI as index.ts
-    participant WF as monitorWorkflow
-    participant Maps as Google Maps
-    participant OpenAI
-    participant SendGrid
+    participant CLI as index.ts (CLI)
+    participant WF as monitorWorkflow (Workflow)
+    participant Maps as Google Maps API
+    participant OpenAI as OpenAI (GPT Message Generator)
+    participant SendGrid as SendGrid (Notification Service)
 
-    CLI->>WF: start / schedule
-    loop every 5 min
-        WF->>Maps: ETA with traffic
-        alt delay >= threshold
-            WF->>OpenAI: draft email
-            OpenAI-->>WF: content
-            WF->>SendGrid: send email
+    CLI->>WF: Start Workflow<br/>(route, threshold, customer info)
+    activate WF
+    loop Every 5 minutes
+        WF->>Maps: Request current ETA<br/>(origin → destination)
+        Maps-->>WF: Respond with ETA & delay minutes
+        
+        alt Delay exceeds threshold
+            WF->>OpenAI: Generate notification message<br/>(route, delay details)
+            OpenAI-->>WF: Return generated message
+            
+            WF->>SendGrid: Send email notification<br/>(to customer)
+            SendGrid-->>WF: Confirm email delivery
+        else Delay below threshold
+            WF-->>WF: Wait for next interval
         end
     end
+    deactivate WF
+
 ```
 
 Each job (route) runs as its own perpetual workflow instance and follows the loop above. Temporal makes the polling and retry logic fault‑tolerant and horizontally scalable.
@@ -60,23 +69,18 @@ Each job (route) runs as its own perpetual workflow instance and follows the loo
 ## Repository layout
 
 ```text
-├── launch.json               # VSCode debug configuration
-├── package-lock.json         # NPM lockfile
-├── package.json              # Project metadata and dependencies
+├── launch.json              
+├── package-lock.json         
+├── package.json              
 ├── README.md                 # Project documentation
 ├── src
+│   ├── config.ts             # Config for tuning thresholds, origins, etc.
+│   ├── index.ts              # Entry point: schedules workflows
+│   ├── worker.ts             # Worker registration and runner
 │   ├── activities/           # OpenAI, SendGrid calls, Google Maps
 │   │   ├── ai.ts
 │   │   ├── notifications.ts
 │   │   └── traffic.ts        
-│   ├── config.ts             # Config for tuning thresholds, origins, etc.
-│   ├── index.ts              # Entry point: schedules workflows
-│   ├── tests/                # Test scripts (manual tests)
-│   │   ├── testAI.ts
-│   │   ├── testNotif.ts
-│   │   ├── testTraffic.ts
-│   │   └── testWorkflow.ts
-│   ├── worker.ts             # Worker registration and runner
 │   └── workflows/            # Temporal workflow logic
 │       ├── delayNotifications.ts
 │       ├── index.ts
