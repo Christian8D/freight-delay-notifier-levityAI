@@ -153,8 +153,8 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `TASK_QUEUE`  | The Temporal **queue name** where workers listen for tasks. |`'FreightMonitorQueue'`.  |
 | `GLOBAL_THRESHOLD`  | The minimum delay (in minutes) before sending an alert. **⚠️ Important:** Remove the `-` sign to track real traffic delays. | `-25`   |
-| `DELTA_JUMP_MIN`    | The extra delay (minutes) needed to consider the delay as “worsened” and send an updated notification.                      | `1`     |
-| `MAX_QUIET_MIN`     | The maximum time (minutes) the workflow waits before sending a fresh update, even if the delay hasn't changed much.         | `3`     |
+| `DELTA_JUMP_MIN`    | The extra delay (minutes) needed to consider the delay as “worsened” and send an updated notification.                      | `10`     |
+| `MAX_QUIET_MIN`     | The maximum time (minutes) the workflow waits before sending a fresh update, even if the delay hasn't changed much.         | `60`     |
 | `CLEAR_MARGIN_MIN`  | When delays drop below `(threshold - this margin)`, the delay is considered “cleared.”                                      | `3`     |
 | `POLL_INTERVAL_MIN` | How often (in minutes) the system polls Google Maps for new traffic data.                                                   | `5`     |
 | `ROLL_OVER_HOURS`   | Workflow rollover interval to keep Temporal histories small (hours).                                                        | `4`     |
@@ -167,9 +167,9 @@ Example predefined **origins**, **destinations**, and customers:
 
 | Job ID | Origin Address                           | Destination | Customer Name | Customer Email                                                  |
 | ------ | ---------------------------------------- | ----------- | ------------- | --------------------------------------------------------------- |
-| 1      | Neuschwansteinstraße 20, 87645 Schwangau | Stuttgart   | Christian C   | [christian.cosio1@gmail.com](mailto:christian.cosio1@gmail.com) |
-| 2      | Bielkenhagen 10, 18439 Stralsund         | Munich      | Manny M       | [christian.cosio1@gmail.com](mailto:christian.cosio1@gmail.com) |
-| 3      | Unter den Linden 10, 10117 Berlin        | Berlin      | Leo M         | [christian.cosio1@gmail.com](mailto:christian.cosio1@gmail.com) |
+| 1      | Neuschwansteinstraße 20, 87645 Schwangau | Stuttgart   | Christian C   | [hire@christianc.dev](mailto:hire@christianc.dev) |
+| 2      | Bielkenhagen 10, 18439 Stralsund         | Munich      | Manny M       | [hire@christianc.dev](mailto:hire@christianc.dev) |
+| 3      | Unter den Linden 10, 10117 Berlin        | Berlin      | Leo M         | [hire@christianc.dev](mailto:hire@christianc.dev) |
 
 To **add new routes, origins and custumers**, simply append to the `src/config.ts` array:
 
