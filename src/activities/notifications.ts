@@ -1,18 +1,10 @@
-/**
- * Sends an email via SendGrid. Throws on failure.
- */
-
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
-import { ROUTE_CONFIGS } from "../config";
+import { ROUTE_CONFIGS, FROM_EMAIL} from "../config";
 import { runAI } from "./ai";
 import { runTraffic } from "./traffic";
 
-
-// Load environment variables
 dotenv.config();
-
-const FROM_EMAIL="hire@christianc.dev"
 
 export interface NotificationParams {
   customer: { name: string; email: string; phone?: string };
@@ -45,9 +37,8 @@ export async function sendNotification(params: NotificationParams): Promise<void
 
 
 export async function runNotification(): Promise<void> {
-  console.log('=== Running testNotification ===');
+  console.log('=== Running runNotification ===');
 
-  // Use the first config customer
   const { customer } = ROUTE_CONFIGS[0];
 
   // Fetch current delay

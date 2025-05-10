@@ -3,6 +3,8 @@ import OpenAI from "openai";
 import type { Route } from "./traffic";
 import { ROUTE_CONFIGS } from '../config';
 import type { Customer } from "../workflows/delayNotifications";
+import { companyName, companyContact } from "../config";
+
 
 export interface AIParams {
   route: Route;
@@ -11,6 +13,17 @@ export interface AIParams {
 }
 
 export async function generateMessage(params: AIParams): Promise<string> {
+
+
+  // console.log('[DEBUG][AI] params:', params);
+  // const prompt = `
+  //   …is delayed by ${params.delayMinutes} minutes.
+  //   …
+  // `;
+  // console.log('[DEBUG][AI] prompt:', prompt.trim());
+
+
+
   const key = process.env.OPENAI_API_KEY;
   if (!key) {
     console.warn("No OPENAI_API_KEY, using fallback message");
@@ -20,8 +33,6 @@ export async function generateMessage(params: AIParams): Promise<string> {
   try {
     const openai = new OpenAI({ apiKey: key });
 
-    const companyName = 'Levity.ai';
-    const companyContact = '555-555-5555';
 
     const prompt = `
 You are a helpful assistant at ${companyName} (contact: ${companyContact}).
@@ -35,7 +46,7 @@ and sign off with ${companyName}’s name and contact info.
     const resp = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "You generate courteous customer notifications." },
+        { role: "system", content: "Your job is to generate courteous customer notifications." },
         { role: "user", content: prompt.trim() },
       ],
       temperature: 0.7,
@@ -51,8 +62,6 @@ and sign off with ${companyName}’s name and contact info.
 }
 
 function fallback({ customer, route, delayMinutes }: AIParams) {
-  const companyName = 'Levity.ai';
-  const companyContact = '555-555-5555';
 
   return `
 Dear ${customer.name},

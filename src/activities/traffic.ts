@@ -1,7 +1,7 @@
 
-import 'dotenv/config'; // Loads .env variables
+import 'dotenv/config'; 
 import { Client as MapsClient, TrafficModel } from "@googlemaps/google-maps-services-js";
-import { ROUTE_CONFIGS } from '../config'; // Central config for routes
+import { ROUTE_CONFIGS } from '../config';
 
 export interface Route { origin: string; destination: string; }
 export interface TrafficData {
@@ -36,9 +36,9 @@ export async function fetchTrafficData(
     const delay = inTraffic - baseline;                   // seconds
     const delayMinutes = Math.round(delay / 60);
 
-    console.log(
-      `Fetched traffic data: baseline=${baseline}s, inTraffic=${inTraffic}s, delay=${delayMinutes}m`
-    );
+    // console.log(
+    //   `Fetched traffic data: baseline=${baseline}s, inTraffic=${inTraffic}s, delay=${delayMinutes}m`
+    // );
 
     return { delayMinutes, baselineSeconds: baseline, inTrafficSeconds: inTraffic };
   } catch (err) {

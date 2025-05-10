@@ -34,6 +34,8 @@ export async function delayNotificationWorkflow(
 ): Promise<void> {
   // 1. Fetch traffic data
   const data = await fetchTrafficData(route);
+  console.log(`[DEBUG] fetchTrafficData → delayMinutes = ${data.delayMinutes}m`);
+
 
   // 2. If under threshold, exit
   if (data.delayMinutes < threshold) {

@@ -6,6 +6,7 @@ import type * as trafficActivities from '../activities/traffic';
 import type * as aiActivities from '../activities/ai';
 import type * as notificationActivities from '../activities/notifications';
 import { sleep as temporalSleep } from '@temporalio/workflow';
+import { CLEAR_MARGIN_MIN, DELTA_JUMP_MIN, MAX_QUIET_MIN, POLL_INTERVAL_MIN } from '../config';
 
 // Configure timeouts for your activities
 const trafficOptions = { startToCloseTimeout: ms('1 minute') };
@@ -71,11 +72,11 @@ export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
     const now = Date.now();
     const shouldNotify =
       (delayMinutes >= cfg.threshold && lastNotifiedAt === null) ||
-      (delayMinutes >= cfg.threshold + 15 && delayMinutes - lastNotifiedDelay >= 15) ||
+      (delayMinutes >= cfg.threshold + DELTA_JUMP_MIN && delayMinutes - lastNotifiedDelay >= DELTA_JUMP_MIN) ||
       (delayMinutes >= cfg.threshold &&
         lastNotifiedAt !== null &&
-        now - lastNotifiedAt >= ms('1h')) ||
-      (delayMinutes < cfg.threshold - 5 && lastNotifiedAt !== null);
+        now - lastNotifiedAt >= ms(`${MAX_QUIET_MIN}m`)) ||
+      (delayMinutes < cfg.threshold - CLEAR_MARGIN_MIN && lastNotifiedAt !== null);
 
     if (shouldNotify) {
       const message = await generateMessage({
@@ -90,7 +91,7 @@ export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
     }
 
     /* Wait before next poll */
-    await sleep(ms('5m'));
+    await sleep(ms(`${POLL_INTERVAL_MIN}min`));
     /* Optionally continue-as-new every few hours */
   }
 }
