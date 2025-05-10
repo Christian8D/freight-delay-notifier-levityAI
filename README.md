@@ -2,12 +2,12 @@
 <div align="center"style="text-align: center;">
 <img src="https://christianc.dev/wp-content/uploads/2025/05/LevityAi.png" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  />
 
-<img src="https://christianc.dev/wp-content/uploads/2024/11/Screen-Shot-2024-11-18-at-9.28.15-PM.svg" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  />
+<img src="https://christianc.dev/wp-content/uploads/2025/05/Screenshot-2025-05-10-at-19.25.12.png" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  />
 <!-- 
   <img src="https://christianc.dev/wp-content/uploads/2024/11/icon-openai.png" width="120" alt="OpenAI Logo"  style="display: block; margin: 0 auto;"  />
 
 
-  <img src="https://christianc.dev/wp-content/uploads/2025/05/temporal-logo-twitter-card.png" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  /> -->
+  <!-- <img src="https://christianc.dev/wp-content/uploads/2025/05/temporal-logo-twitter-card.png" width="300" alt="Temporal Logo"  style="display: block; margin: 0 auto;"  /> --> -->
   <!-- <img src="https://christianc.dev/wp-content/uploads/2025/05/typescriptjs.jpg" width="220" alt="TypeScript Logo"  style="display: block; margin: 0 auto;"  /> -->
 </div>
 
