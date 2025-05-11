@@ -198,7 +198,6 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 | `MAX_QUIET_MIN`     | The maximum time (minutes) the workflow waits before sending a fresh update, even if the delay hasn't changed much.         | `60`     |
 | `CLEAR_MARGIN_MIN`  | When delays drop below `(threshold - this margin)`, the delay is considered “cleared.”                                      | `3`     |
 | `POLL_INTERVAL_MIN` | How often (in minutes) the system polls Google Maps for new traffic data.                                                   | `5`     |
-| `ROLL_OVER_HOURS`   | Workflow rollover interval to keep Temporal histories small (hours).                                                        | `4`     |
 
 ---
 
