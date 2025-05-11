@@ -63,6 +63,44 @@ sequenceDiagram
     deactivate WF
 
 ```
+```mermaid
+sequenceDiagram
+    participant CLI as index.ts (CLI)
+    participant WF  as monitorWorkflow (Workflow)
+    participant Maps as Google Maps API
+    participant OpenAI as OpenAI (GPT Message Generator)
+    participant SendGrid as SendGrid (Notification Service)
+
+    %%— Bootstrap —%%
+    CLI->>WF: Start workflow <br/>(route, threshold -25 m, taskCompletedTimer, customer)
+    activate WF
+
+    %%— Main polling loop —%%
+    loop Every 30 s (POLL_INTERVAL_MIN = 0.5)
+        %% 1️⃣ Get live traffic
+        WF->>Maps: Request ETA with traffic
+        Maps-->>WF: ETA + delayMinutes
+
+        %% 2️⃣ Check if delivery simulation timer has elapsed
+        alt Delivery complete (taskCompletedTimer elapsed)
+            WF-->>CLI: Finalise workflow ✓
+            deactivate WF
+            break
+        else Continue monitoring
+            %% 3️⃣ Decide whether to notify
+            alt Delay ≥ threshold (-25 m) <br/>or worsened by +10 m<br/>or ≥60 m since last email
+                WF->>OpenAI: Generate customer email <br/>(route, delayMinutes)
+                OpenAI-->>WF: AI-generated message
+
+                WF->>SendGrid: Send email notification <br/>(to customer)
+                SendGrid-->>WF: Delivery confirmed
+            else Delay within tolerance
+                WF-->>WF: Wait for next interval
+            end
+        end
+    end
+
+```
 
 Each job (route) runs as its own perpetual workflow instance and follows the loop above. Temporal makes the polling and retry logic fault‑tolerant and horizontally scalable.
 
