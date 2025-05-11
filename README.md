@@ -32,54 +32,7 @@ Uses an AI API to generate a customized message if a delay exceeds a specified t
 
 Sends a notification to a customer about the delay
 
-✅ Exercise Requirements
-🔌 Set Up and Integrate APIs
-Traffic Data API: Use a traffic API (e.g., Google Maps or Mapbox) to get traffic data for a specified route and calculate potential delay time.
-If you encounter difficulties connecting to a live traffic API, you may mock the response (real API integration is preferred).
-
-AI Message Generation API: Use the provided OpenAI API key to access the gpt-4o-mini model for generating a friendly, delay-related message for the customer.
-
-API Key: Use this key for authentication when calling the OpenAI API.
-
-Notification API: Use an email or SMS API (e.g., SendGrid or Twilio) to send the generated message to the customer. If you encounter difficulties connecting to a live API, you may mock the response.
-
-🛠 Workflow Requirements
-Fetch traffic data for a specified route to calculate the estimated delay in minutes.
-
-Check if the delay exceeds a threshold (e.g., 30 minutes):
-
-If the delay is over the threshold, proceed to Step 3.
-
-If the delay is under the threshold, do nothing further.
-
-Generate a message using the AI API if a delay notification is needed.
-
-Send the message to the customer via the email or SMS API.
-
-⚠️ Error Handling
-Ensure each API response is validated.
-
-Log any issues (e.g., traffic data not found, AI API failure) and handle them gracefully.
-
-If the AI API call fails, use a default fallback message.
-
-🧾 Documentation
-Add descriptions for each code block, explaining:
-
-The purpose of each step
-
-The variables used
-
-Any specific parameters required
-
-📤 Expected Output
-Logs: Use the console to show key steps, such as the delay time, AI message content, and notification status.
-
-Notification Confirmation: Indicate whether the notification was successfully sent or skipped.
-
-🚀 Submission
-Create a GitHub repository and share the link with us.
-
+And finalizes workflow on delivery (simulated)
 
 Powered by:
 
@@ -139,6 +92,9 @@ sequenceDiagram
 
 Each job (route) runs as its own perpetual workflow instance and follows the loop above. Temporal makes the polling and retry logic fault‑tolerant and horizontally scalable.
 
+[⬆ Back to top](#table-of-contents)
+
+
 ## Repository layout
 
 ```text
@@ -162,6 +118,8 @@ Each job (route) runs as its own perpetual workflow instance and follows the loo
 ├── tsconfig.json             # TypeScript configuration
 └── your_temporal.db          # SQLite DB used by Temporal server
 ```
+
+[⬆ Back to top](#table-of-contents)
 
 ## Getting started
 
@@ -213,6 +171,8 @@ npm start
 
 Logs will show one worker poller and one workflow scheduled per entry in `src/config.ts`.
 
+[⬆ Back to top](#table-of-contents)
+
 ## Configuration
 
 ## `src/config.ts`
@@ -224,6 +184,7 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 
 * `TASK_QUEUE`: The Temporal **queue name** where workers listen for tasks. Default: `'FreightMonitorQueue'`.
 
+[⬆ Back to top](#table-of-contents)
 
 ### 🚦 Tuning knobs
 
@@ -238,6 +199,8 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 | `ROLL_OVER_HOURS`   | Workflow rollover interval to keep Temporal histories small (hours).                                                        | `4`     |
 
 ---
+
+[⬆ Back to top](#table-of-contents)
 
 ### 🗺 Routes & Customers
 
@@ -282,6 +245,8 @@ This file is designed for **easy customization**—no code elsewhere needs chang
 
 * **.env** for secret keys
 
+[⬆ Back to top](#table-of-contents)
+
 ## Scripts
 
 `package.json` exposes handy aliases:
@@ -291,6 +256,7 @@ This file is designed for **easy customization**—no code elsewhere needs chang
 * `npm run test:traffic` / `test:ai` / `test:notif` – run individual module tests
 * `npm run test:workflow` – run Temporal workflow tests (uses @temporalio/testing)
 
+[⬆ Back to top](#table-of-contents)
 
 ## Troubleshooting
 
