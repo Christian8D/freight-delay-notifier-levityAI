@@ -41,7 +41,6 @@ Powered by:
 * **SendGrid** – delivers the email
 * **Temporal** – orchestrates long‑running workflows, polling, retries and timing
 
-##
 
 ## Table of contents
 
