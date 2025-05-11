@@ -39,40 +39,13 @@ Powered by:
 ```mermaid
 sequenceDiagram
     participant CLI as index.ts (CLI)
-    participant WF as monitorWorkflow (Workflow)
-    participant Maps as Google Maps API
-    participant OpenAI as OpenAI (GPT Message Generator)
-    participant SendGrid as SendGrid (Notification Service)
-
-    CLI->>WF: Start Workflow<br/>(route, threshold, customer info)
-    activate WF
-    loop Every 5 minutes
-        WF->>Maps: Request current ETA<br/>(origin → destination)
-        Maps-->>WF: Respond with ETA & delay minutes
-        
-        alt Delay exceeds threshold
-            WF->>OpenAI: Generate notification message<br/>(route, delay details)
-            OpenAI-->>WF: Return generated message
-            
-            WF->>SendGrid: Send email notification<br/>(to customer)
-            SendGrid-->>WF: Confirm email delivery
-        else Delay below threshold
-            WF-->>WF: Wait for next interval
-        end
-    end
-    deactivate WF
-
-```
-```mermaid
-sequenceDiagram
-    participant CLI as index.ts (CLI)
     participant WF  as monitorWorkflow (Workflow)
     participant Maps as Google Maps API
     participant OpenAI as OpenAI (GPT Message Generator)
     participant SendGrid as SendGrid (Notification Service)
 
     %%— Bootstrap —%%
-    CLI->>WF: Start workflow <br/>(route, threshold -25 m, taskCompletedTimer, customer)
+    CLI->>WF: Start workflow <br/>(route, threshold GLOBAL_THRESHOLD=-25 m, taskCompletedTimer, customer)
     activate WF
 
     %%— Main polling loop —%%
@@ -88,7 +61,7 @@ sequenceDiagram
         end
 
         %% 3️⃣ Otherwise, check delay status
-        alt Delay ≥ threshold (-25 m)<br/>OR worsened by +10 m<br/>OR no update in ≥60 m
+        alt Delay ≥ threshold (GLOBAL_THRESHOLD=-25 m)<br/>OR worsened by DELTA_JUMP_MIN= +10 m<br/>OR no update in MAX_QUIET_MIN=≥60 m
             WF->>OpenAI: Generate email (route, delayMinutes)
             OpenAI-->>WF: Return message
 
