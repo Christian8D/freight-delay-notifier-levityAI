@@ -31,8 +31,7 @@ Powered by:
 3. [Getting started](#getting-started)
 4. [Configuration](#configuration)
 5. [Scripts & tasks](#scripts)
-6. [Testing](#testing)
-7. [Troubleshooting](#troubleshooting)
+6. [Troubleshooting](#troubleshooting)
 
 ## Architecture
 
@@ -87,6 +86,7 @@ Each job (route) runs as its own perpetual workflow instance and follows the loo
 │   ├── config.ts             # Config for tuning thresholds, origins, etc.
 │   ├── index.ts              # Entry point: schedules workflows
 │   ├── worker.ts             # Worker registration and runner
+│   ├── test/                 # Testing modules
 │   ├── activities/           # OpenAI, SendGrid calls, Google Maps
 │   │   ├── ai.ts
 │   │   ├── notifications.ts
@@ -227,13 +227,6 @@ This file is designed for **easy customization**—no code elsewhere needs chang
 * `npm run test:traffic` / `test:ai` / `test:notif` – run individual module tests
 * `npm run test:workflow` – run Temporal workflow tests (uses @temporalio/testing)
 
-## Testing
-
-Tests are written with Jest and nock for HTTP mocking. To execute all:
-
-```bash
-npm test
-```
 
 ## Troubleshooting
 
