@@ -92,7 +92,7 @@ sequenceDiagram
 
 Each job (route) runs as its own perpetual workflow instance and follows the loop above. Temporal makes the polling and retry logic fault‑tolerant and horizontally scalable.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#Table-of-contents)
 
 
 ## Repository layout
