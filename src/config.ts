@@ -15,7 +15,8 @@ export const FROM_EMAIL="hire@christianc.dev"
 export const TASK_QUEUE = 'FreightMonitorQueue';
 
 /** Global threshold for initial alert (minutes of delay tolerance) REMOVE THE "-" symbol to get real traffic gains */
-export const GLOBAL_THRESHOLD = -1;
+export const GLOBAL_THRESHOLD = -25;
+
 
 
 /** Additional minutes before we say the delay has “worsened” */
@@ -31,7 +32,7 @@ export const CLEAR_MARGIN_MIN = 5;
 
 
 /** Poll Google Maps every N minutes */
-export const POLL_INTERVAL_MIN = 5;
+export const POLL_INTERVAL_MIN = .5;
 
 
 
@@ -41,14 +42,17 @@ export const POLL_INTERVAL_MIN = 5;
 export const Origin_1 = 'Neuschwansteinstraße 20, 87645 Schwangau';
 export const Destination_1 = 'Stuttgart';
 export const Customer_1 = { name: 'Christian C', email: 'hire@christianc.dev', phone: '+49 123 456789' };
+export const TASK_COMPLETED_TIMER_1= 1;
 
 export const Origin_2 = 'Bielkenhagen 10, 18439 Stralsund';
 export const Destination_2 = 'Munich';
 export const Customer_2 = { name: 'Manny M', email: 'hire@christianc.dev', phone: '+49 123 456789' };
+export const TASK_COMPLETED_TIMER_2= 2;
 
 export const Origin_3 = 'Unter den Linden 10, 10117 Berlin';
 export const Destination_3 = 'Berlin';
 export const Customer_3 = { name: 'Leo M', email: 'hire@christianc.dev', phone: '+49 123 456789' };
+export const TASK_COMPLETED_TIMER_3= 3;
 
 
 // NEW Delivery Details example:
@@ -62,7 +66,7 @@ export const Customer_3 = { name: 'Leo M', email: 'hire@christianc.dev', phone: 
 /*  Job list                                                                   */
 /* -------------------------------------------------------------------------- */
 
-export interface JobConfig extends RouteConfig { job_id: number }
+export interface JobConfig extends RouteConfig { job_id: number, taskCompletedTimer: number;  }
 
 export const ROUTE_CONFIGS: JobConfig[] = [
   {
@@ -73,6 +77,7 @@ export const ROUTE_CONFIGS: JobConfig[] = [
     },
     threshold: GLOBAL_THRESHOLD,
     customer: Customer_1,
+    taskCompletedTimer: TASK_COMPLETED_TIMER_1,
     },
     {
     job_id: 2,
@@ -82,6 +87,7 @@ export const ROUTE_CONFIGS: JobConfig[] = [
     },
     threshold: GLOBAL_THRESHOLD,
     customer: Customer_2,
+    taskCompletedTimer: TASK_COMPLETED_TIMER_2,
     },
     {
     job_id: 3,
@@ -91,6 +97,7 @@ export const ROUTE_CONFIGS: JobConfig[] = [
         },
     threshold: GLOBAL_THRESHOLD,
     customer: Customer_3,
+    taskCompletedTimer: TASK_COMPLETED_TIMER_3,
     },
     // {
     // job_id: 4,

@@ -1,6 +1,6 @@
 
 // src/workflows/monitorWorkflow.ts
-import { proxyActivities, log } from '@temporalio/workflow';
+import { proxyActivities, log, sleep } from '@temporalio/workflow';
 import ms from 'ms';
 import type * as trafficActivities from '../activities/traffic';
 import type * as aiActivities from '../activities/ai';
@@ -18,13 +18,12 @@ const { fetchTrafficData }   = proxyActivities<typeof trafficActivities>(traffic
 const { generateMessage }    = proxyActivities<typeof aiActivities>(aiOptions);
 const { sendNotification }   = proxyActivities<typeof notificationActivities>(notifyOptions);
 
-/**
- * Describes one route monitoring configuration.
- */
+
 export interface RouteConfig {
   route: { origin: string; destination: string };
   threshold: number;                     // delay threshold in minutes
   customer: { name: string; email: string; phone?: string };
+  taskCompletedTimer: number;
 }
 
 /**
@@ -63,13 +62,26 @@ export interface RouteConfig {
 
 
 export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
+  const startTime = Date.now();
   let lastNotifiedAt: number | null = null;
   let lastNotifiedDelay = 0;
 
   while (true) {
-    const { delayMinutes } = await fetchTrafficData(cfg.route);
-
+    
     const now = Date.now();
+    
+    // Simulate delivery completion
+    if (now - startTime >=ms(`${cfg.taskCompletedTimer}m`)) {
+      log.info(`Delivery completed after ${cfg.taskCompletedTimer} minutes. Finishing workflow.`);
+      return;
+    }
+    
+
+
+
+
+    const { delayMinutes } = await fetchTrafficData(cfg.route);
+    
     const shouldNotify =
       (delayMinutes >= cfg.threshold && lastNotifiedAt === null) ||
       (delayMinutes >= cfg.threshold + DELTA_JUMP_MIN && delayMinutes - lastNotifiedDelay >= DELTA_JUMP_MIN) ||
@@ -94,8 +106,5 @@ export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
     await sleep(ms(`${POLL_INTERVAL_MIN}min`));
     /* Optionally continue-as-new every few hours */
   }
-}
-function sleep(ms: number): Promise<void> {
-  return temporalSleep(ms);
 }
 

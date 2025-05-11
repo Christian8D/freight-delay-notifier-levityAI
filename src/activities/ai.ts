@@ -35,18 +35,21 @@ export async function generateMessage(params: AIParams): Promise<string> {
 
 
     const prompt = `
-You are a helpful assistant at ${companyName} (contact: ${companyContact}).
-Write a friendly, professional, yet short email to ${params.customer.name} Make sure you don't include a Subject: Line, and inform them that their freight from
-${params.route.origin} to ${params.route.destination}
-is delayed by ${params.delayMinutes} minutes.
-Apologize for the inconvenience, explain briefly why the delay happened, reassure them,
-and sign off with ${companyName}’s name and contact info.
-`;
+  You are a friendly and professional customer support assistant at ${companyName}. 
+
+  Compose a concise email to ${params.customer.name} informing them that their freight shipment from ${params.route.origin} to ${params.route.destination} is experiencing a delay of approximately ${params.delayMinutes} minutes.
+
+  Apologize politely for the inconvenience and briefly mention common reasons such as traffic conditions or unexpected road incidents as the cause of the delay. Provide reassurance that the team is actively working to resolve this as quickly as possible.
+
+  End the email courteously, clearly stating the company's contact information: ${companyContact}.  
+
+  Make sure the message does not include a subject line or any symbols or special characters except these punctuation marks: ':', '/', ';', '.', ',', ''', '&', '-'.
+  `.trim();
 
     const resp = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "Your job is to generate courteous customer notifications." },
+        { role: "system", content: "You generate professional, clear, and reassuring freight delay notification emails. Do not include a subject line. Use only standard punctuation (allowed characters: ':', '/', ';', '.', ',', ''', '&', '-'). Avoid any other symbols or special characters." },
         { role: "user", content: prompt.trim() },
       ],
       temperature: 0.7,
