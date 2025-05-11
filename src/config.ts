@@ -15,12 +15,12 @@ export const FROM_EMAIL="hire@christianc.dev"
 export const TASK_QUEUE = 'FreightMonitorQueue';
 
 /** Global threshold for initial alert (minutes of delay tolerance) REMOVE THE "-" symbol to get real traffic gains */
-export const GLOBAL_THRESHOLD = -25;
+export const GLOBAL_THRESHOLD = 30;
 
 
 
 /** Additional minutes before we say the delay has “worsened” */
-export const DELTA_JUMP_MIN   = 10;
+export const DELTA_JUMP_MIN   = 15;
 
 
 /** Max silent period before sending an update (minutes) */
@@ -28,7 +28,7 @@ export const MAX_QUIET_MIN    = 60;
 
 
 /** Margin below threshold that counts as “cleared”  */
-export const CLEAR_MARGIN_MIN = 5;
+export const CLEAR_MARGIN_MIN = 30;
 
 
 /** Poll Google Maps every N minutes */
