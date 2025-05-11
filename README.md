@@ -193,11 +193,11 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 | Constant            | Description                                                                                                                 | Default |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `TASK_QUEUE`  | The Temporal **queue name** where workers listen for tasks. |`'FreightMonitorQueue'`.  |
-| `GLOBAL_THRESHOLD`  | The minimum delay (in minutes) before sending an alert. **⚠️ Important:** Remove the `-` sign to track real traffic delays. | `-25`   |
-| `DELTA_JUMP_MIN`    | The extra delay (minutes) needed to consider the delay as “worsened” and send an updated notification.                      | `10`     |
+| `GLOBAL_THRESHOLD`  | The minimum delay (in minutes) before sending an alert. **⚠️ Important:** Remove the `-` sign to track real traffic delays. | `30`   |
+| `DELTA_JUMP_MIN`    | The extra delay (minutes) needed to consider the delay as “worsened” and send an updated notification.                      | `15`     |
 | `MAX_QUIET_MIN`     | The maximum time (minutes) the workflow waits before sending a fresh update, even if the delay hasn't changed much.         | `60`     |
-| `CLEAR_MARGIN_MIN`  | When delays drop below `(threshold - this margin)`, the delay is considered “cleared.”                                      | `3`     |
-| `POLL_INTERVAL_MIN` | How often (in minutes) the system polls Google Maps for new traffic data.                                                   | `5`     |
+| `CLEAR_MARGIN_MIN`  | When delays drop below `(threshold - this margin)`, the delay is considered “cleared.”                                      | `30`     |
+| `POLL_INTERVAL_MIN` | How often (in minutes) the system polls Google Maps for new traffic data.                                                   | `.5` 30s    |
 
 ---
 
