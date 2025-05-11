@@ -136,8 +136,8 @@ Each job (route) runs as its own workflow instance until completion and follows 
 \### 2. Install
 
 ```bash
-git clone <repo>
-cd freight-delay-monitor
+git clone https://github.com/Christian8D/freight-delay-notifier-levityAI
+cd freight-delay-notifier
 npm install
 ```
 
