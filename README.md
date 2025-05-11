@@ -41,7 +41,7 @@ Powered by:
 * **SendGrid** – delivers the email
 * **Temporal** – orchestrates long‑running workflows, polling, retries and timing
 
-## Table of contents
+## Table of contents
 
 1. [Architecture](#architecture)
 2. [Repository layout](#repository-layout)
@@ -92,7 +92,7 @@ sequenceDiagram
 
 Each job (route) runs as its own perpetual workflow instance and follows the loop above. Temporal makes the polling and retry logic fault‑tolerant and horizontally scalable.
 
-[⬆ Back to top](#Table-of-contents)
+[⬆ Back to top](#table-of-contents)
 
 
 ## Repository layout
