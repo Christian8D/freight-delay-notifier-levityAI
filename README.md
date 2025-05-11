@@ -32,7 +32,9 @@ Uses an AI API to generate a customized message if a delay exceeds a specified t
 
 Sends a notification to a customer about the delay
 
-And finalizes workflow on delivery (simulated)
+And finalizes workflow on delivery (Simulated - Bonus) 
+
+App Config behaviour adjustmen panel ready (Bonus)
 
 Powered by:
 
