@@ -187,7 +187,6 @@ The `config.ts` file is the **central place** to define all key parameters, rout
 
 * `TASK_QUEUE`: The Temporal **queue name** where workers listen for tasks. Default: `'FreightMonitorQueue'`.
 
-[⬆ Back to top](#table-of-contents)
 
 ### 🚦 Tuning knobs
 
