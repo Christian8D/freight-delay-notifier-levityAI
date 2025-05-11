@@ -17,6 +17,70 @@
 
 An end‑to‑end TypeScript / Temporal demo that monitors live road traffic for predefined freight routes and notifies customers by email when shipments are delayed.
 
+🎯 Objective
+Create an app (in TypeScript) to monitor traffic delays on a freight delivery route and notify a customer if a significant delay occurs.
+The goal of this exercise is to assess your ability to work with APIs, handle data transformations, and build a multi-step workflow using Temporal (and their TypeScript SDK).
+
+📘 Scenario
+Imagine you’re tasked with setting up a notification system for delayed freight deliveries. You will use Temporal to create a workflow that:
+
+Checks traffic conditions on a delivery route
+
+Calculates potential delays
+
+Uses an AI API to generate a customized message if a delay exceeds a specified threshold
+
+Sends a notification to a customer about the delay
+
+✅ Exercise Requirements
+🔌 Set Up and Integrate APIs
+Traffic Data API: Use a traffic API (e.g., Google Maps or Mapbox) to get traffic data for a specified route and calculate potential delay time.
+If you encounter difficulties connecting to a live traffic API, you may mock the response (real API integration is preferred).
+
+AI Message Generation API: Use the provided OpenAI API key to access the gpt-4o-mini model for generating a friendly, delay-related message for the customer.
+
+API Key: Use this key for authentication when calling the OpenAI API.
+
+Notification API: Use an email or SMS API (e.g., SendGrid or Twilio) to send the generated message to the customer. If you encounter difficulties connecting to a live API, you may mock the response.
+
+🛠 Workflow Requirements
+Fetch traffic data for a specified route to calculate the estimated delay in minutes.
+
+Check if the delay exceeds a threshold (e.g., 30 minutes):
+
+If the delay is over the threshold, proceed to Step 3.
+
+If the delay is under the threshold, do nothing further.
+
+Generate a message using the AI API if a delay notification is needed.
+
+Send the message to the customer via the email or SMS API.
+
+⚠️ Error Handling
+Ensure each API response is validated.
+
+Log any issues (e.g., traffic data not found, AI API failure) and handle them gracefully.
+
+If the AI API call fails, use a default fallback message.
+
+🧾 Documentation
+Add descriptions for each code block, explaining:
+
+The purpose of each step
+
+The variables used
+
+Any specific parameters required
+
+📤 Expected Output
+Logs: Use the console to show key steps, such as the delay time, AI message content, and notification status.
+
+Notification Confirmation: Indicate whether the notification was successfully sent or skipped.
+
+🚀 Submission
+Create a GitHub repository and share the link with us.
+
+
 Powered by:
 
 * **Google Maps Directions API** – real‑time ETA and traffic data
