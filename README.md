@@ -81,22 +81,21 @@ sequenceDiagram
         WF->>Maps: Request ETA with traffic
         Maps-->>WF: ETA + delayMinutes
 
-        %% 2️⃣ Check if delivery simulation timer has elapsed
-        alt Delivery complete (taskCompletedTimer elapsed)
-            WF-->>CLI: Finalise workflow ✓
+        %% 2️⃣ Simulate delivery completion
+        alt taskCompletedTimer elapsed
+            WF-->>CLI: Finish workflow ✓
             deactivate WF
-            break
-        else Continue monitoring
-            %% 3️⃣ Decide whether to notify
-            alt Delay ≥ threshold (-25 m) <br/>or worsened by +10 m<br/>or ≥60 m since last email
-                WF->>OpenAI: Generate customer email <br/>(route, delayMinutes)
-                OpenAI-->>WF: AI-generated message
+        end
 
-                WF->>SendGrid: Send email notification <br/>(to customer)
-                SendGrid-->>WF: Delivery confirmed
-            else Delay within tolerance
-                WF-->>WF: Wait for next interval
-            end
+        %% 3️⃣ Otherwise, check delay status
+        alt Delay ≥ threshold (-25 m)<br/>OR worsened by +10 m<br/>OR no update in ≥60 m
+            WF->>OpenAI: Generate email (route, delayMinutes)
+            OpenAI-->>WF: Return message
+
+            WF->>SendGrid: Send email to customer
+            SendGrid-->>WF: Confirm delivery
+        else Delay within acceptable range
+            WF-->>WF: Skip notification
         end
     end
 
