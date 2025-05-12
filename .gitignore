@@ -1,4 +1,5 @@
 .env
 node_modules/
 your_temporal.db
-*.js
+*.js.env
+replacements.txt
