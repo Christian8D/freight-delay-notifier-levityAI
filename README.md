@@ -13,7 +13,7 @@
  
 </div>
 
-# Freight Delay Notification System Exercise 🚚 <br> (Engineering Edition) 🔧
+# Freight Delay Notification System Exercise 🚚 <br> <div align="center" style="text-align: center;"> Engineering Edition 🔧 </div>
 
 An end‑to‑end TypeScript / Temporal demo that monitors live road traffic for predefined freight routes and notifies customers by email when shipments are delayed.
 
