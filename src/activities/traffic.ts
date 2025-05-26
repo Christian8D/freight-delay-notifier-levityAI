@@ -10,51 +10,81 @@ export interface TrafficData {
   inTrafficSeconds: number;
 }
 
-export async function fetchTrafficData(
-  route: Route
-): Promise<TrafficData> {
-  const key = process.env.GOOGLE_MAPS_API_KEY;
-  if (!key) {
-    throw new Error("Missing GOOGLE_MAPS_API_KEY in environment variables");
-  }
+export type TrafficResult = | { success:true; data: TrafficData } | { success: false; error: string };
 
+
+export async function fetchTrafficData(
+  route: Route,
+): Promise<TrafficResult> {
   try {
     const client = new MapsClient({});
+    const key = process.env.GOOGLE_MAPS_API_KEY;
+    if (!key) {
+      throw new Error("Missing GOOGLE_MAPS_API_KEY in environment variables");
+    }
+
     const res = await client.directions({
-      params: {
-        origin: route.origin,
-        destination: route.destination,
-        key,
-        departure_time: "now",
-        traffic_model: TrafficModel.best_guess,
-      },
-    });
+    params: {
+      origin: route.origin,
+      destination: route.destination,
+      key, 
+      departure_time: "now",
+      traffic_model: TrafficModel.best_guess,
+    },
+    
+  });
 
-    const leg = res.data.routes[0].legs[0];
-    const baseline = leg.duration.value;                  // seconds if no traffic
-    const inTraffic = leg.duration_in_traffic?.value ?? baseline;
-    const delay = inTraffic - baseline;                   // seconds
-    const delayMinutes = Math.round(delay / 60);
+  
 
-    // console.log(
-    //   `Fetched traffic data: baseline=${baseline}s, inTraffic=${inTraffic}s, delay=${delayMinutes}m`
-    // );
+  const leg = res.data.routes[0].legs[0];
 
-    return { delayMinutes, baselineSeconds: baseline, inTrafficSeconds: inTraffic };
-  } catch (err) {
-    console.error("Error fetching traffic data:", err);
-    // Fallback: assume no delay
-    return { delayMinutes: 0, baselineSeconds: 0, inTrafficSeconds: 0 };
-  }
+  if (!leg) throw new Error("Invalid traffic data: no route/leg returned from Google Maps API");
+
+  const baseline = leg.duration.value;                  
+  const inTraffic = leg.duration_in_traffic?.value ?? baseline;
+  const delay = inTraffic - baseline;
+  const delayMinutes = Math.round(delay / 60);
+  
+  return{
+    success: true,
+    data: {
+      delayMinutes,
+      baselineSeconds: baseline,
+      inTrafficSeconds: inTraffic,
+    },
+  };
+}catch (err:any) {
+  const status = err.response?.status;
+  const apiMsg = err.response?.data?.error_message;
+  console.log('[Traffic][FetchFailure]', {
+    route,
+    status,
+    apiMsg,
+    stack: err.stack,
+  });
+  return { success: false, error: apiMsg ?? err.message };
+}
 }
 
 
 export async function runTraffic(): Promise<number> {
   console.log('=== Running testTraffic ===');
+  if (!ROUTE_CONFIGS.length) {
+    throw new Error("No route configurations found");
+  }
   const { route } = ROUTE_CONFIGS[0];
+
+if(!route.origin || !route.destination) {
+  throw new Error("Route configuration is missing origin or destination");
+}
+
   console.log(`Using route: ${route.origin} → ${route.destination}`);
 
-  const data: TrafficData = await fetchTrafficData(route as Route);
+  const result = await fetchTrafficData(route as Route);
+  if (!result.success) {
+    throw new Error(`Failed to fetch traffic data: ${result.error}`);
+  }
+  const data = result.data;
   console.log('Fetched traffic data:', data);
 
   return data.delayMinutes;
@@ -67,3 +97,4 @@ if (require.main === module) {
     process.exit(1);
   });
 }
+

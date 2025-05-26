@@ -26,61 +26,37 @@ export interface RouteConfig {
   taskCompletedTimer: number;
 }
 
-/**
- * Workflow: monitor multiple freight routes, notify if delay exceeds threshold.
- *
- * @param configs - List of { route, threshold, customer }
- */
-// export async function monitorWorkflow(configs: RouteConfig[]): Promise<void> {
-//   log.info(`Starting monitorWorkflow for ${configs.length} route(s)`);
+  async function fetchUntilSuccess(route: RouteConfig['route']) {
+      while (true) {
+        const result = await fetchTrafficData(route);
+        if (result.success) {
+          return result.data;
+        }
+        log.warn(`Failed to fetch traffic data, retrying in ${POLL_INTERVAL_MIN} minutes...`);
+        await sleep(ms(`${POLL_INTERVAL_MIN}min`));
+      }
 
-//   for (const { route, threshold, customer } of configs) {
-//     log.info(`Checking traffic for ${route.origin} → ${route.destination}`);
-
-//     // 1️⃣ Fetch traffic data
-//     const { delayMinutes } = await fetchTrafficData(route);
-//     log.info(`Delay is ${delayMinutes} minute(s)`);
-
-//     // 2️⃣ Skip notifications if under threshold
-//     if (delayMinutes <= threshold) {
-//       log.info(`Delay (${delayMinutes}m) ≤ threshold (${threshold}m), skipping notification`);
-//       continue;
-//     }
-
-//     // 3️⃣ Generate AI-powered message
-//     log.info(`Delay (${delayMinutes}m) > threshold (${threshold}m), generating message`);
-//     const message = await generateMessage({ route, delayMinutes, customer });
-//     log.info('Generated message, sending notification');
-
-//     // 4️⃣ Send notification
-//     await sendNotification({ customer, message });
-//     log.info(`Notification sent to ${customer.email}`);
-//   }
-
-//   log.info('monitorWorkflow completed');
-// }
+    }
 
 
 export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
   const startTime = Date.now();
   let lastNotifiedAt: number | null = null;
   let lastNotifiedDelay = 0;
-
-  while (true) {
-    
+  
+   while (true) {
     const now = Date.now();
-    
-    // Simulate delivery completion
-    if (now - startTime >=ms(`${cfg.taskCompletedTimer}m`)) {
+
+    if (now - startTime >= ms(`${cfg.taskCompletedTimer}m`)) {
       log.info(`Delivery completed after ${cfg.taskCompletedTimer} minutes. Finishing workflow.`);
       return;
     }
-    
+  
+
+    // const { delayMinutes } = result.data;
+    const { delayMinutes } = await fetchUntilSuccess(cfg.route);
 
 
-
-
-    const { delayMinutes } = await fetchTrafficData(cfg.route);
     
     const shouldNotify =
       (delayMinutes >= cfg.threshold && lastNotifiedAt === null) ||
@@ -104,7 +80,6 @@ export async function monitorWorkflow(cfg: RouteConfig): Promise<void> {
 
     /* Wait before next poll */
     await sleep(ms(`${POLL_INTERVAL_MIN}min`));
-    /* Optionally continue-as-new every few hours */
   }
 }
 
