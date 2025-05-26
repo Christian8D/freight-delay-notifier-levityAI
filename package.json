@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "build": "tsc",
+    "worker": "ts-node src/worker.ts",
+    "start-workflow": "ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
+    "test:traffic": "ts-node --project tsconfig.json src/tests/testTraffic.ts",
+    "test:notif": "ts-node --project tsconfig.json src/tests/testNotif.ts",
+    "test:ai": "ts-node --project tsconfig.json src/tests/testAI.ts",
+    "test:workflow": "ts-node --project tsconfig.json src/tests/testWorkflow.ts"
+  },
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.1",
+    "@sendgrid/mail": "^8.1.5",
+    "@temporalio/client": "^1.11.7",
+    "dotenv": "^16.5.0",
+    "lru-cache": "^11.1.0",
+    "openai": "^4.97.0"
+  },
+  "devDependencies": {
+    "@temporalio/testing": "^1.11.7",
+    "@temporalio/worker": "^1.11.7",
+    "@temporalio/workflow": "^1.11.7",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.17",
+    "jest": "^29.7.0",
+    "nock": "^14.0.4",
+    "ts-jest": "^29.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
